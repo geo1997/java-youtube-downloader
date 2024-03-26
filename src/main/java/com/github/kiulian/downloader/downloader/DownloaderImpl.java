@@ -5,6 +5,8 @@ import com.github.kiulian.downloader.YoutubeException;
 import com.github.kiulian.downloader.downloader.request.*;
 import com.github.kiulian.downloader.downloader.response.ResponseImpl;
 import com.github.kiulian.downloader.model.videos.formats.Format;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.*;
 import java.net.*;
@@ -300,7 +302,7 @@ public class DownloaderImpl implements Downloader {
 
 
     private HttpURLConnection openConnection(String httpUrl, Map<String, String> headers, Proxy proxy, boolean acceptCompression) throws IOException {
-        URL url = new URL(httpUrl);
+        URL url = Urls.create(httpUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         HttpURLConnection urlConnection;
         if (proxy != null) {
